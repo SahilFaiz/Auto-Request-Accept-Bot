@@ -23,11 +23,9 @@ async def broadcast_command(client, message):
         # Send broadcast message to users who joined the channel
         await send_broadcast_message(client, broadcast_text)
 
-# Function to send broadcast message to users who joined the channel
 async def send_broadcast_message(client, text):
     # Get all members who joined the channel
-    chat_members = await client.get_chat_members(CHAT_ID)
-    for member in chat_members:
+    async for member in client.iter_chat_members(CHAT_ID):
         # Send message to user if it's not the bot itself
         if member.user.id != client.me.id:
             await client.send_message(member.user.id, text)
