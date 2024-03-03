@@ -45,12 +45,6 @@ async def autoapprove(client, message):
     print(f"{user.first_name} 𝙹𝙾𝙸𝙽𝙴𝙳 ⚡")  # Logs
     await client.approve_chat_join_request(chat_id=chat.id, user_id=user.id)
 
-@pr0fess0r_99.on_member_leave()
-async def member_leave(client, update):
-    chat_id = update.chat.id
-    member_id = update.from_user.id
-    await client.send_message(chat_id, f"User with ID {member_id} left the chat. Would you like to share the reason why?")
-
 
 print("𝗕𝗼𝘁 𝗦𝘁𝗮𝗿𝘁𝗲𝗱")
 pr0fess0r_99.run()
