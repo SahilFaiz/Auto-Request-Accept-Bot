@@ -20,6 +20,7 @@ async def broadcast_message(client, message_text):
 
 # Command handler for broadcasting messages
 @pr0fess0r_99.on_message(filters.private & filters.command(["broadcast"]))
+print("Broadcasting Message!!!")
 async def broadcast_command(client, message):
     # Check if the user sending the command is the owner of the bot
     if message.from_user.id == OWNER_ID:  # Replace OWNER_ID with the actual user ID of the bot owner
