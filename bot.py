@@ -21,7 +21,7 @@ async def broadcast_message(client, message_text):
 @pr0fess0r_99.on_message(filters.private & filters.command(["broadcast"]))
 async def broadcast_command(client, message):
     # Check if the user sending the command is the owner of the bot
-    if message.from_user.id == amongusshe:  # Replace OWNER_ID with the actual user ID of the bot owner
+    if message.from_user.id == @amongusshe:  # Replace OWNER_ID with the actual user ID of the bot owner
         # Get the message to broadcast from the command
         broadcast_text = " ".join(message.command[1:])
         
