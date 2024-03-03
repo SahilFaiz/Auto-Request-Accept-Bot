@@ -12,6 +12,7 @@ pr0fess0r_99=Client(
 CHAT_ID=int(os.environ.get("CHAT_ID", None))
 TEXT=os.environ.get("APPROVED_WELCOME_TEXT", "Hello {mention}\nWelcome To {title}\n\nYour Auto Approved")
 APPROVED = os.environ.get("APPROVED_WELCOME", "on").lower()
+OWNER_ID = os.environ.get("OWNER_ID", None)
 
 async def broadcast_message(client, message_text):
     async for member in client.iter_chat_members(CHAT_ID):
@@ -21,7 +22,7 @@ async def broadcast_message(client, message_text):
 @pr0fess0r_99.on_message(filters.private & filters.command(["broadcast"]))
 async def broadcast_command(client, message):
     # Check if the user sending the command is the owner of the bot
-    if message.from_user.id == @amongusshe:  # Replace OWNER_ID with the actual user ID of the bot owner
+    if message.from_user.id == OWNER_ID:  # Replace OWNER_ID with the actual user ID of the bot owner
         # Get the message to broadcast from the command
         broadcast_text = " ".join(message.command[1:])
         
@@ -45,5 +46,5 @@ async def autoapprove(client: pr0fess0r_99, message: ChatJoinRequest):
     if APPROVED == "on":
         await client.send_message(chat_id=chat.id, text=TEXT.format(mention=user.mention, title=chat.title))       
 
-print("𝗕𝗼𝘁 𝗦𝘁𝗮𝗿𝘁𝗲𝗱 𝗣𝗹𝗲𝗮𝘀𝗲 𝗦𝘂𝗯𝘀𝗰𝗿𝗶𝗯𝗲 𝗢𝗽𝘂𝘀𝗧𝗲𝗰𝗵𝘇")
+print("𝗕𝗼𝘁 𝗦𝘁𝗮𝗿𝘁𝗲𝗱")
 pr0fess0r_99.run()
