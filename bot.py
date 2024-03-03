@@ -17,7 +17,7 @@ APPROVED = os.environ.get("APPROVED_WELCOME", "on").lower()
 async def broadcast_command(client, message):
     # Check if the user sending the command is the owner of the bot
     owner_id = os.environ.get("OWNER_ID", None)
-    if owner_id and message.from_user.id == int(owner_id):
+    if owner_id and message.from_user.id == owner_id:
         # Get the message to broadcast from the command
         broadcast_text = " ".join(message.command[1:])
         
