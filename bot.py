@@ -10,21 +10,27 @@ pr0fess0r_99=Client(
 )
 
 CHAT_ID=int(os.environ.get("CHAT_ID", None))
-TEXT=os.environ.get("APPROVED_WELCOME_TEXT", "Hello {mention}\nWelcome To {title}\n\nYour Auto Approved")
 APPROVED = os.environ.get("APPROVED_WELCOME", "on").lower()
 
+# Command handler for broadcasting messages
 @pr0fess0r_99.on_message(filters.private & filters.command(["broadcast"]))
 async def broadcast_command(client, message):
     # Check if the user sending the command is the owner of the bot
     owner_id = os.environ.get("OWNER_ID", None)
-    if owner_id and message.from_user.id == owner_id:
+    if owner_id and message.from_user.username == owner_id[1:]:
         # Get the message to broadcast from the command
         broadcast_text = " ".join(message.command[1:])
         
-        # Get all members who interacted with the bot
-        async for dialog in client.iter_dialogs():
-            if dialog.chat.type == "private" and dialog.chat.id != client.me.id:
-                await client.send_message(dialog.chat.id, broadcast_text)
+        # Send broadcast message to users who joined the channel
+        await send_broadcast_message(client, broadcast_text)
+
+# Function to send broadcast message to users who joined the channel
+async def send_broadcast_message(client, text):
+    # Get all members who joined the channel
+    async for member in client.iter_chat_members(CHAT_ID):
+        # Send message to user if it's not the bot itself
+        if member.user.id != client.me.id:
+            await client.send_message(member.user.id, text)
         
 @pr0fess0r_99.on_message(filters.private & filters.command(["start"]))
 async def start(client: pr0fess0r_99, message: Message):
