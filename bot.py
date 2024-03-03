@@ -44,7 +44,7 @@ async def autoapprove(client, message):
     user = message.from_user  # User
     print(f"{user.first_name} 𝙹𝙾𝙸𝙽𝙴𝙳 ⚡")  # Logs
     await client.approve_chat_join_request(chat_id=chat.id, user_id=user.id)
-    print(f"{user.id} this is user id")
+    print(f"{user.name} this is user id")
 
 
 print("𝗕𝗼𝘁 𝗦𝘁𝗮𝗿𝘁𝗲𝗱")
