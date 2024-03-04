@@ -43,7 +43,7 @@ async def broadcast_command(client, message):
         print("u r not owner")
 
 async def send_broadcast_message(client, text):
-    if text is not None and text.strip():
+    if text.strip():
         # Retrieve user IDs from the database
         cursor = mydb.cursor()
         cursor.execute("SELECT user_id FROM users")
