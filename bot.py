@@ -26,7 +26,7 @@ pr0fess0r_99 = Client(
     api_hash=os.environ["API_HASH"]
 )
 
-CHAT_ID = [int(chat_id) for chat_id in environ.get("CHAT_ID", "").split(",")]
+CHAT_ID = [int(chat_id) for chat_id in os.environ.get("CHAT_ID", "").split(",")]
 
 # Command handler for broadcasting messages
 @pr0fess0r_99.on_message(filters.private & filters.command(["broadcast"]))
