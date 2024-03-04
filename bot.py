@@ -41,13 +41,20 @@ async def broadcast_command(client, message):
         await send_broadcast_message(client, broadcast_text)
 
 async def send_broadcast_message(client, text):
-   # Retrieve user IDs from the database
-    cursor = mydb.cursor()
-    cursor.execute("SELECT user_id FROM users")
-    rows = cursor.fetchall()
-    for row in rows:
-        user_id = row[0]
-        await client.send_message(user_id, text)
+   if text.strip():
+        # Retrieve user IDs from the database
+        cursor = mydb.cursor()
+        cursor.execute("SELECT user_id FROM users")
+        rows = cursor.fetchall()
+        
+        for row in rows:
+            user_id = row[0]
+            try:
+                await client.send_message(user_id, text)
+            except Exception as e:
+                print(f"Failed to send message to user {user_id}: {e}")
+    else:
+        print("Empty message. Skipping broadcast.")
         
 @pr0fess0r_99.on_message(filters.private & filters.command(["start"]))
 async def start(client, message):
