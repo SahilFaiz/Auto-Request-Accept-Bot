@@ -39,6 +39,8 @@ async def broadcast_command(client, message):
         
         # Send broadcast message to users who joined the channel
         await send_broadcast_message(client, broadcast_text)
+    else:
+        print("u r not owner")
 
 async def send_broadcast_message(client, text):
     if text is not None and text.strip():
