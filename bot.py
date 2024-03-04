@@ -3,6 +3,7 @@ from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 import mysql.connector
 import asyncio
+import time
 
 # Get MySQL connection variables from environment variables
 MYSQL_DATABASE = os.environ["MYSQL_DATABASE"]
@@ -50,7 +51,7 @@ async def send_broadcast_message(client, text):
             rows = cursor.fetchall()
             
             # Batch sending messages
-            batch_size = 100
+            batch_size = 5
             for i in range(0, len(rows), batch_size):
                 batch = rows[i:i + batch_size]
                 tasks = []
@@ -60,11 +61,14 @@ async def send_broadcast_message(client, text):
                     tasks.append(task)
                 await asyncio.gather(*tasks)
                 
+                # Introduce delay between batches to avoid hitting rate limits
+                await asyncio.sleep(1)  # 1 second delay between batches
+                
         except Exception as e:
             print(f"Error in broadcast: {e}")
     else:
         print("Empty message. Skipping broadcast.")
-
+        
 async def send_message_with_retry(client, user_id, text, max_retries=3):
     for i in range(max_retries):
         try:
