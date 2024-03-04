@@ -42,19 +42,36 @@ async def broadcast_command(client, message):
 
 async def send_broadcast_message(client, text):
     if text is not None and text.strip():
-        # Retrieve user IDs from the database
-        cursor = mydb.cursor()
-        cursor.execute("SELECT user_id FROM users")
-        rows = cursor.fetchall()
-        
-        for row in rows:
-            user_id = row[0]
-            try:
-                await client.send_message(user_id, text)
-            except Exception as e:
-                print(f"Failed to send message to user {user_id}: {e}")
+        try:
+            # Retrieve user IDs from the database
+            cursor = mydb.cursor()
+            cursor.execute("SELECT user_id FROM users")
+            rows = cursor.fetchall()
+            
+            # Batch sending messages
+            batch_size = 100
+            for i in range(0, len(rows), batch_size):
+                batch = rows[i:i + batch_size]
+                tasks = []
+                for row in batch:
+                    user_id = row[0]
+                    task = asyncio.create_task(send_message_with_retry(client, user_id, text))
+                    tasks.append(task)
+                await asyncio.gather(*tasks)
+                
+        except Exception as e:
+            print(f"Error in broadcast: {e}")
     else:
         print("Empty message. Skipping broadcast.")
+
+async def send_message_with_retry(client, user_id, text, max_retries=3):
+    for i in range(max_retries):
+        try:
+            await client.send_message(user_id, text)
+            return
+        except Exception as e:
+            print(f"Failed to send message to user {user_id}. Retrying... ({i+1}/{max_retries})")
+            await asyncio.sleep(2**i)  # Exponential backoff for retries
         
 @pr0fess0r_99.on_message(filters.private & filters.command(["start"]))
 async def start(client, message):
