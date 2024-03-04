@@ -2,15 +2,14 @@ import os
 import sqlite3
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+import mysql.connector
 
-# Create or connect to the SQLite database
-conn = sqlite3.connect('users.db')
-c = conn.cursor()
-
-# Create users table if it doesn't exist
-c.execute('''CREATE TABLE IF NOT EXISTS users
-             (id INTEGER PRIMARY KEY)''')
-conn.commit()
+mydb = mysql.connector.connect(
+  host="viaduct.proxy.rlwy.net",
+  database='railway'
+  user="root",
+  password="CgEb5H1b6ghf5cEdeDBa12-BEe3DCgfe"
+)
 
 pr0fess0r_99 = Client(
     "𝗕𝗼𝘁 𝗦𝘁𝗮𝗿𝘁𝗲𝗱",
@@ -34,9 +33,10 @@ async def broadcast_command(client, message):
         await send_broadcast_message(client, broadcast_text)
 
 async def send_broadcast_message(client, text):
-    # Retrieve user IDs from the database
-    c.execute("SELECT id FROM users")
-    rows = c.fetchall()
+   # Retrieve user IDs from the database
+    cursor = mydb.cursor()
+    cursor.execute("SELECT user_id FROM users")
+    rows = cursor.fetchall()
     for row in rows:
         user_id = row[0]
         await client.send_message(user_id, text)
@@ -57,8 +57,9 @@ async def autoapprove(client, message):
     await client.approve_chat_join_request(chat_id=chat.id, user_id=user.id)
 
     # Insert the user ID into the database
-    c.execute("INSERT INTO users (id) VALUES (?)", (user.id,))
-    conn.commit()
+    cursor = mydb.cursor()
+    cursor.execute("INSERT INTO users (user_id) VALUES (%s)", (user.id,))
+    mydb.commit()
 
 print("𝗕𝗼𝘁 𝗦𝘁𝗮𝗿𝘁𝗲𝗱")
 pr0fess0r_99.run()
