@@ -1,14 +1,22 @@
 import os
-import sqlite3
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 import mysql.connector
 
+# Get MySQL connection variables from environment variables
+MYSQL_DATABASE = os.environ["MYSQL_DATABASE"]
+MYSQL_HOST = os.environ["RAILWAY_TCP_PROXY_DOMAIN"]
+MYSQL_PORT = os.environ["RAILWAY_TCP_PROXY_PORT"]
+MYSQL_USER = "root"
+MYSQL_PASSWORD = os.environ["MYSQL_ROOT_PASSWORD"]
+
+# Establish MySQL connection
 mydb = mysql.connector.connect(
-  host="viaduct.proxy.rlwy.net",
-  database='railway',
-  user="root",
-  password="CgEb5H1b6ghf5cEdeDBa12-BEe3DCgfe"
+    host=MYSQL_HOST,
+    port=MYSQL_PORT,
+    database=MYSQL_DATABASE,
+    user=MYSQL_USER,
+    password=MYSQL_PASSWORD
 )
 
 pr0fess0r_99 = Client(
