@@ -6,7 +6,7 @@ import mysql.connector
 
 mydb = mysql.connector.connect(
   host="viaduct.proxy.rlwy.net",
-  database='railway'
+  database='railway',
   user="root",
   password="CgEb5H1b6ghf5cEdeDBa12-BEe3DCgfe"
 )
