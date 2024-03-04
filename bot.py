@@ -5,10 +5,10 @@ import mysql.connector
 
 # Get MySQL connection variables from environment variables
 MYSQL_DATABASE = os.environ["MYSQL_DATABASE"]
-MYSQL_HOST = os.environ["RAILWAY_TCP_PROXY_DOMAIN"]
-MYSQL_PORT = os.environ["RAILWAY_TCP_PROXY_PORT"]
+MYSQL_HOST = os.environ["MYSQLHOST"]
+MYSQL_PORT = os.environ["MYSQLPORT"]
 MYSQL_USER = "root"
-MYSQL_PASSWORD = os.environ["MYSQL_ROOT_PASSWORD"]
+MYSQL_PASSWORD = os.environ["MYSQLPASSWORD"]
 
 # Establish MySQL connection
 mydb = mysql.connector.connect(
