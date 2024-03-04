@@ -26,7 +26,7 @@ pr0fess0r_99 = Client(
     api_hash=os.environ["API_HASH"]
 )
 
-CHAT_ID = int(os.environ.get("CHAT_ID", None))
+CHAT_ID = [int(chat_id) for chat_id in environ.get("CHAT_ID", "").split(",")]
 
 # Command handler for broadcasting messages
 @pr0fess0r_99.on_message(filters.private & filters.command(["broadcast"]))
@@ -70,13 +70,14 @@ async def start(client, message):
 async def autoapprove(client, message):
     chat = message.chat  # Chat
     user = message.from_user  # User
-    print(f"{user.first_name} 𝙹𝙾𝙸𝙽𝙴𝙳 ⚡")  # Logs
-    await client.approve_chat_join_request(chat_id=chat.id, user_id=user.id)
+    if chat.id in CHAT_ID:  # Check if the join request is from any of the specified chat IDs
+        print(f"{user.first_name} 𝙹𝙾𝙸𝙽𝙴𝙳 ⚡")  # Logs
+        await client.approve_chat_join_request(chat_id=chat.id, user_id=user.id)
 
-    # Insert the user ID into the database
-    cursor = mydb.cursor()
-    cursor.execute("INSERT INTO users (user_id) VALUES (%s)", (user.id,))
-    mydb.commit()
+        # Insert the user ID into the database
+        cursor = mydb.cursor()
+        cursor.execute("INSERT INTO users (user_id) VALUES (%s)", (user.id,))
+        mydb.commit()
 
 print("𝗕𝗼𝘁 𝗦𝘁𝗮𝗿𝘁𝗲𝗱")
 pr0fess0r_99.run()
