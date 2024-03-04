@@ -2,6 +2,7 @@ import os
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 import mysql.connector
+import asyncio
 
 # Get MySQL connection variables from environment variables
 MYSQL_DATABASE = os.environ["MYSQL_DATABASE"]
