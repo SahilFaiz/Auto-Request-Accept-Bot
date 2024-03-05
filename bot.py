@@ -30,11 +30,12 @@ pr0fess0r_99 = Client(
 CHAT_ID = [int(chat_id) for chat_id in os.environ.get("CHAT_ID", "").split(",")]
 
 # Function to send messages with rate limiting
-async def send_message_with_rate_limit(client, chat_id, text):
+async def send_message_with_rate_limit(client, user_id, text):
     try:
-        await client.send_message(chat_id, text)
+        await client.send_message(user_id, text)
+        print(f"Broadcasted {user_id} Sucessfully!!!!!")
     except Exception as e:
-        print(f"Failed to send message to user {chat_id}: {e}")
+        print(f"Failed to send message to user {user_id}: {e}")
 
 # Function to broadcast messages to all users
 async def broadcast_message(client, text):
@@ -49,7 +50,7 @@ async def broadcast_message(client, text):
         for i in range(0, len(rows), batch_size):
             batch = rows[i:i + batch_size]
             for row in batch:
-                user_id = row[0]
+                user_id = (row[0])
                 await send_message_with_rate_limit(client, user_id, text)
                 time.sleep(1)  # Rate limit: 1 message per second
 
@@ -97,7 +98,6 @@ async def autoapprove(client, message):
             # Insert the user ID into the database
             cursor.execute("INSERT INTO users (user_id) VALUES (%s)", (user.id,))
             mydb.commit()
-            print(f"User {user.id} inserted into the database.")
 
 print("𝗕𝗼𝘁 𝗦𝘁𝗮𝗿𝘁𝗲𝗱")
 pr0fess0r_99.run()
