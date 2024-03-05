@@ -52,7 +52,7 @@ async def broadcast_message(client, text):
             for row in batch:
                 user_id = (row[0])
                 await send_message_with_rate_limit(client, user_id, text)
-                time.sleep(1)  # Rate limit: 1 message per second
+                time.sleep(2)  # Rate limit: 1 message per second
 
     else:
         print("Empty message. Skipping broadcast.")
@@ -87,6 +87,10 @@ async def autoapprove(client, message):
         print(f"{user.first_name} 𝙹𝙾𝙸𝙽𝙴𝙳 ⚡")  # Logs
         await client.approve_chat_join_request(chat_id=chat.id, user_id=user.id)
 
+        # Send welcome message
+        welcome_message = f"Welcome to {chat.title}, {user.first_name}! \nHappy Shopping!!!!"
+        await client.send_message(user.id, welcome_message)
+
         # Check if the user ID already exists in the database
         cursor = mydb.cursor()
         cursor.execute("SELECT user_id FROM users WHERE user_id = %s", (user.id,))
@@ -98,6 +102,9 @@ async def autoapprove(client, message):
             # Insert the user ID into the database
             cursor.execute("INSERT INTO users (user_id) VALUES (%s)", (user.id,))
             mydb.commit()
+
+print("𝗕𝗼𝘁 𝗦𝘁𝗮𝗿𝘁𝗲𝗱")
+pr0fess0r_99.run()
 
 print("𝗕𝗼𝘁 𝗦𝘁𝗮𝗿𝘁𝗲𝗱")
 pr0fess0r_99.run()
