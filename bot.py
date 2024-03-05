@@ -103,8 +103,28 @@ async def autoapprove(client, message):
             cursor.execute("INSERT INTO users (user_id) VALUES (%s)", (user.id,))
             mydb.commit()
 
-print("𝗕𝗼𝘁 𝗦𝘁𝗮𝗿𝘁𝗲𝗱")
-pr0fess0r_99.run()
+@pr0fess0r_99.on_message(filters.private & filters.command(["reset_database"]))
+async def reset_database(client, message):
+    # Check if the user sending the command is the owner of the bot
+    owner_id = os.environ.get("OWNER_ID", None)
+    if owner_id and message.from_user.username == owner_id[1:]:
+        # Get the cursor to execute SQL queries
+        cursor = mydb.cursor()
+
+        # Execute SQL query to delete all records from the table
+        cursor.execute("DELETE FROM users")
+
+        # Commit the changes
+        mydb.commit()
+
+        # Close the cursor
+        cursor.close()
+
+        # Send a confirmation message
+        await message.reply_text("Database reset successful. All entries have been deleted.")
+    else:
+        await message.reply_text("You are not authorized to perform this action.")
+
 
 print("𝗕𝗼𝘁 𝗦𝘁𝗮𝗿𝘁𝗲𝗱")
 pr0fess0r_99.run()
