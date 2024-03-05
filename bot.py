@@ -55,7 +55,7 @@ async def broadcast_message(client, text):
             for row in batch:
                 user_id = row[0]
                 if not await send_message_with_rate_limit(client, user_id, text):
-                    print(f"Failed to send message to user {user_id} after {retries} retries.")
+                    print(f"Failed to send message to user {user_id} after 3 retries.")
     else:
         print("Empty message. Skipping broadcast.")
 
