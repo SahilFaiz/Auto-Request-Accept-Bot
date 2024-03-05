@@ -2,6 +2,7 @@ import os
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 import mysql.connector
+import time
 
 # Get MySQL connection variables from environment variables
 MYSQL_DATABASE = os.environ["MYSQL_DATABASE"]
@@ -28,6 +29,33 @@ pr0fess0r_99 = Client(
 
 CHAT_ID = [int(chat_id) for chat_id in os.environ.get("CHAT_ID", "").split(",")]
 
+# Function to send messages with rate limiting
+async def send_message_with_rate_limit(client, chat_id, text):
+    try:
+        await client.send_message(chat_id, text)
+    except Exception as e:
+        print(f"Failed to send message to user {chat_id}: {e}")
+
+# Function to broadcast messages to all users
+async def broadcast_message(client, text):
+    if text.strip():
+        # Retrieve user IDs from the database
+        cursor = mydb.cursor()
+        cursor.execute("SELECT user_id FROM users")
+        rows = cursor.fetchall()
+
+        # Batch messages to avoid hitting limits
+        batch_size = 30  # Max messages per batch
+        for i in range(0, len(rows), batch_size):
+            batch = rows[i:i + batch_size]
+            for row in batch:
+                user_id = row[0]
+                await send_message_with_rate_limit(client, user_id, text)
+                time.sleep(1)  # Rate limit: 1 message per second
+
+    else:
+        print("Empty message. Skipping broadcast.")
+
 # Command handler for broadcasting messages
 @pr0fess0r_99.on_message(filters.private & filters.command(["broadcast"]))
 async def broadcast_command(client, message):
@@ -36,27 +64,11 @@ async def broadcast_command(client, message):
     if owner_id and message.from_user.username == owner_id[1:]:
         # Get the message to broadcast from the command
         broadcast_text = " ".join(message.command[1:])
-        
+
         # Send broadcast message to users who joined the channel
-        await send_broadcast_message(client, broadcast_text)
+        await broadcast_message(client, broadcast_text)
     else:
         print("u r not owner")
-
-async def send_broadcast_message(client, text):
-    if text.strip():
-        # Retrieve user IDs from the database
-        cursor = mydb.cursor()
-        cursor.execute("SELECT user_id FROM users")
-        rows = cursor.fetchall()
-        
-        for row in rows:
-            user_id = row[0]
-            try:
-                await client.send_message(user_id, text)
-            except Exception as e:
-                print(f"Failed to send message to user {user_id}: {e}")
-    else:
-        print("Empty message. Skipping broadcast.")
         
 @pr0fess0r_99.on_message(filters.private & filters.command(["start"]))
 async def start(client, message):
