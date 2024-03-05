@@ -5,11 +5,19 @@ import mysql.connector
 import time
 
 # Get MySQL connection variables from environment variables
-MYSQL_URL = os.environ["MYSQL_URL"]
+MYSQL_DATABASE = os.environ["MYSQL_DATABASE"]
+MYSQL_HOST = os.environ["MYSQLHOST"]
+MYSQL_PORT = os.environ["MYSQLPORT"]
+MYSQL_USER = "root"
+MYSQL_PASSWORD = os.environ["MYSQLPASSWORD"]
 
 # Establish MySQL connection
 mydb = mysql.connector.connect(
-    mysql_url = MYSQL_URL
+    host=MYSQL_HOST,
+    port=MYSQL_PORT,
+    database=MYSQL_DATABASE,
+    user=MYSQL_USER,
+    password=MYSQL_PASSWORD
 )
 
 pr0fess0r_99 = Client(
