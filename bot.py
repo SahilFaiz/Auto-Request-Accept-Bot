@@ -31,11 +31,16 @@ CHAT_ID = [int(chat_id) for chat_id in os.environ.get("CHAT_ID", "").split(",")]
 
 # Function to send messages with rate limiting
 async def send_message_with_rate_limit(client, user_id, text):
-    try:
-        await client.send_message(user_id, text)
-        print(f"Broadcasted {user_id} Sucessfully!!!!!")
-    except Exception as e:
-        print(f"Failed to send message to user {user_id}: {e}")
+    retries = 3  # Number of retries
+    for _ in range(retries):
+        try:
+            await client.send_message(user_id, text)
+            print(f"Broadcasted {user_id} successfully!")
+            return True
+        except Exception as e:
+            print(f"Failed to send message to user {user_id}: {e}")
+            time.sleep(10)  # Wait before retrying
+    return False
 
 # Function to broadcast messages to all users
 async def broadcast_message(client, text):
@@ -46,14 +51,13 @@ async def broadcast_message(client, text):
         rows = cursor.fetchall()
 
         # Batch messages to avoid hitting limits
-        batch_size = 30  # Max messages per batch
+        batch_size = 25  # Max messages per batch
         for i in range(0, len(rows), batch_size):
             batch = rows[i:i + batch_size]
             for row in batch:
-                user_id = (row[0])
-                await send_message_with_rate_limit(client, user_id, text)
-                time.sleep(2)  # Rate limit: 1 message per second
-
+                user_id = row[0]
+                if not await send_message_with_rate_limit(client, user_id, text):
+                    print(f"Failed to send message to user {user_id} after {retries} retries.")
     else:
         print("Empty message. Skipping broadcast.")
 
