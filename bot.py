@@ -29,9 +29,7 @@ pr0fess0r_99 = Client(
 
 CHAT_ID = [int(chat_id) for chat_id in os.environ.get("CHAT_ID", "").split(",")]
 
-# Function to send messages with rate limiting
-async def send_message_with_rate_limit(client, user_id, text):
-    retries = 3  # Number of retries
+async def send_message_with_rate_limit(client, user_id, text, retries=3):
     for _ in range(retries):
         try:
             await client.send_message(user_id, text)
