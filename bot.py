@@ -74,10 +74,18 @@ async def autoapprove(client, message):
         print(f"{user.first_name} 𝙹𝙾𝙸𝙽𝙴𝙳 ⚡")  # Logs
         await client.approve_chat_join_request(chat_id=chat.id, user_id=user.id)
 
-        # Insert the user ID into the database
+        # Check if the user ID already exists in the database
         cursor = mydb.cursor()
-        cursor.execute("INSERT INTO users (user_id) VALUES (%s)", (user.id,))
-        mydb.commit()
+        cursor.execute("SELECT user_id FROM users WHERE user_id = %s", (user.id,))
+        existing_user = cursor.fetchone()
+        
+        if existing_user:
+            print(f"User {user.id} already exists in the database.")
+        else:
+            # Insert the user ID into the database
+            cursor.execute("INSERT INTO users (user_id) VALUES (%s)", (user.id,))
+            mydb.commit()
+            print(f"User {user.id} inserted into the database.")
 
 print("𝗕𝗼𝘁 𝗦𝘁𝗮𝗿𝘁𝗲𝗱")
 pr0fess0r_99.run()
