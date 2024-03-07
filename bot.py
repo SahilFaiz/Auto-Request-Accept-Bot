@@ -50,12 +50,14 @@ async def broadcast_message(client, text):
 
         # Batch messages to avoid hitting limits
         batch_size = 25  # Max messages per batch
+        successful_sends = 0  # Counter for successful sends
         for i in range(0, len(rows), batch_size):
             batch = rows[i:i + batch_size]
             for row in batch:
                 user_id = row[0]
-                if not await send_message_with_rate_limit(client, user_id, text):
-                    print(f"Failed to send message to user {user_id} after 3 retries.")
+                if await send_message_with_rate_limit(client, user_id, text):
+                    successful_sends += 1
+        print(f"Total {successful_sends} users received the message.")
     else:
         print("Empty message. Skipping broadcast.")
 
