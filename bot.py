@@ -4,6 +4,24 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 import mysql.connector
 import time
 
+# Function to establish MySQL connection with auto-reconnect
+def establish_db_connection():
+    while True:
+        try:
+            mydb = mysql.connector.connect(
+                host=MYSQL_HOST,
+                port=MYSQL_PORT,
+                database=MYSQL_DATABASE,
+                user=MYSQL_USER,
+                password=MYSQL_PASSWORD
+            )
+            print("Connected to MySQL database successfully!")
+            return mydb
+        except mysql.connector.Error as e:
+            print(f"Failed to connect to MySQL database: {e}")
+            print("Retrying in 10 seconds...")
+            time.sleep(10)
+
 # Get MySQL connection variables from environment variables
 MYSQL_DATABASE = os.environ["MYSQL_DATABASE"]
 MYSQL_HOST = os.environ["MYSQLHOST"]
@@ -12,13 +30,7 @@ MYSQL_USER = "root"
 MYSQL_PASSWORD = os.environ["MYSQLPASSWORD"]
 
 # Establish MySQL connection
-mydb = mysql.connector.connect(
-    host=MYSQL_HOST,
-    port=MYSQL_PORT,
-    database=MYSQL_DATABASE,
-    user=MYSQL_USER,
-    password=MYSQL_PASSWORD
-)
+mydb = establish_db_connection()
 
 pr0fess0r_99 = Client(
     "𝗕𝗼𝘁 𝗦𝘁𝗮𝗿𝘁𝗲𝗱",
