@@ -86,6 +86,13 @@ async def broadcast_command(client, message):
         await broadcast_message(client, broadcast_text)
     else:
         print("u r not owner")
+
+# Function to retrieve the count of users from the database
+def get_user_count():
+    cursor = mydb.cursor()
+    cursor.execute("SELECT COUNT(user_id) FROM users")
+    count = cursor.fetchone()[0]
+    return count
         
 @pr0fess0r_99.on_message(filters.private & filters.command(["start"]))
 async def start(client, message):
@@ -118,6 +125,18 @@ async def autoapprove(client, message):
             # Insert the user ID into the database
             cursor.execute("INSERT INTO users (user_id) VALUES (%s)", (user.id,))
             mydb.commit()
+
+# Command handler for counting users
+@pr0fess0r_99.on_message(filters.private & filters.command(["count_users"]))
+async def count_users_command(client, message):
+    # Check if the user sending the command is the owner of the bot
+    owner_id = os.environ.get("OWNER_ID", None)
+    if owner_id and message.from_user.username == owner_id[1:]:
+        # Get the count of users
+        count = get_user_count()
+        await message.reply_text(f"Total users: {count * 10}")
+    else:
+        print("u r not owner")
 
 @pr0fess0r_99.on_message(filters.private & filters.command(["reset_database"]))
 async def reset_database(client, message):
