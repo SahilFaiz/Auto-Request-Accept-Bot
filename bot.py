@@ -49,22 +49,7 @@ def write_user_ids_to_csv(user_ids):
             writer.writerow([user_id])
     print("User IDs have been written to user_ids.csv")
 
-# Command handler for sending user data CSV file
-@pr0fess0r_99.on_message(filters.private & filters.command(["user_data"]))
-async def send_user_data_csv(client, message):
-    # Check if the user sending the command is the owner of the bot
-    owner_id = os.environ.get("OWNER_ID", None)
-    if owner_id and message.from_user.username == owner_id[1:]:
-        # Retrieve user IDs from the database
-        user_ids = get_user_ids()
 
-        # Write user IDs to a CSV file
-        write_user_ids_to_csv(user_ids)
-
-        # Send the CSV file
-        await client.send_document(message.chat.id, "user_ids.csv", caption="Here is the user data CSV file.")
-    else:
-        await message.reply_text("You are not authorized to perform this action.")
 
 pr0fess0r_99 = Client(
     "𝗕𝗼𝘁 𝗦𝘁𝗮𝗿𝘁𝗲𝗱",
@@ -85,7 +70,23 @@ async def send_message_with_rate_limit(client, user_id, text, retries=3):
             print(f"Failed to send message to user {user_id}: {e}")
             time.sleep(10)  # Wait before retrying
     return False
+# Command handler for sending user data CSV file
+@pr0fess0r_99.on_message(filters.private & filters.command(["user_data"]))
+async def send_user_data_csv(client, message):
+    # Check if the user sending the command is the owner of the bot
+    owner_id = os.environ.get("OWNER_ID", None)
+    if owner_id and message.from_user.username == owner_id[1:]:
+        # Retrieve user IDs from the database
+        user_ids = get_user_ids()
 
+        # Write user IDs to a CSV file
+        write_user_ids_to_csv(user_ids)
+
+        # Send the CSV file
+        await client.send_document(message.chat.id, "user_ids.csv", caption="Here is the user data CSV file.")
+    else:
+        await message.reply_text("You are not authorized to perform this action.")
+        
 # Function to broadcast messages to all users
 async def broadcast_message(client, text):
     if text.strip():
