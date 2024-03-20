@@ -62,7 +62,7 @@ CHAT_ID = [int(chat_id) for chat_id in os.environ.get("CHAT_ID", "").split(",")]
 
 # Function to send message with rate limit
 async def send_message_with_rate_limit(client, user_id, text, session):
-    url = f"https://api.telegram.org/bot{client.token}/sendMessage"
+    url = f"https://api.telegram.org/bot{client.bot_token}/sendMessage"
     data = {
         "chat_id": user_id,
         "text": text
