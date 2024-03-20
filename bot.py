@@ -32,6 +32,28 @@ MYSQL_PASSWORD = os.environ["MYSQLPASSWORD"]
 # Establish MySQL connection
 mydb = establish_db_connection()
 
+# Function to retrieve user IDs from the database
+def get_user_ids():
+    cursor = mydb.cursor()
+    cursor.execute("SELECT user_id FROM users")
+    rows = cursor.fetchall()
+    return [row[0] for row in rows]
+
+# Function to write user IDs to a CSV file
+def write_user_ids_to_csv(user_ids):
+    with open('user_ids.csv', 'w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(["User ID"])
+        for user_id in user_ids:
+            writer.writerow([user_id])
+    print("User IDs have been written to user_ids.csv")
+
+# Retrieve user IDs from the database
+user_ids = get_user_ids()
+
+# Write user IDs to a CSV file
+write_user_ids_to_csv(user_ids)
+
 pr0fess0r_99 = Client(
     "𝗕𝗼𝘁 𝗦𝘁𝗮𝗿𝘁𝗲𝗱",
     bot_token=os.environ["BOT_TOKEN"],
