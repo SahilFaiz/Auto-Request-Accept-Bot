@@ -7,9 +7,6 @@ import time
 import csv
 import aiohttp
 
-# Function to establish MySQL connection with auto-reconnect
-def establish_db_connection():
-# Function to establish MySQL connection with auto-reconnect
 def establish_db_connection():
     while True:
         try:
