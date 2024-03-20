@@ -9,14 +9,16 @@ import aiohttp
 
 # Function to establish MySQL connection with auto-reconnect
 def establish_db_connection():
+# Function to establish MySQL connection with auto-reconnect
+def establish_db_connection():
     while True:
         try:
             mydb = mysql.connector.connect(
-                host= ["MYSQL_HOST"],
-                port=["MYSQL_PORT"]),
-                database=["MYSQL_DATABASE"],
-                user="root",
-                password=["MYSQL_PASSWORD"]
+                host=MYSQL_HOST,
+                port=MYSQL_PORT,
+                database=MYSQL_DATABASE,
+                user=MYSQL_USER,
+                password=MYSQL_PASSWORD
             )
             print("Connected to MySQL database successfully!")
             return mydb
@@ -27,10 +29,11 @@ def establish_db_connection():
 
 # Get MySQL connection variables from environment variables
 MYSQL_DATABASE = os.environ["MYSQL_DATABASE"]
-MYSQL_HOST = os.environ["MYSQL_HOST"]
-MYSQL_PORT = os.environ["MYSQL_PORT"]
+MYSQL_HOST = os.environ["MYSQLHOST"]
+MYSQL_PORT = os.environ["MYSQLPORT"]
 MYSQL_USER = "root"
-MYSQL_PASSWORD = os.environ["MYSQL_PASSWORD"]
+MYSQL_PASSWORD = os.environ["MYSQLPASSWORD"]
+
 
 # Establish MySQL connection
 mydb = establish_db_connection()
