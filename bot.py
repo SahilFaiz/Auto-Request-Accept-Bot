@@ -12,11 +12,11 @@ def establish_db_connection():
     while True:
         try:
             mydb = mysql.connector.connect(
-                host=os.environ["MYSQL_HOST"],
-                port=int(os.environ["MYSQL_PORT"]),
-                database=os.environ["MYSQL_DATABASE"],
+                host= ["MYSQL_HOST"],
+                port=["MYSQL_PORT"]),
+                database=["MYSQL_DATABASE"],
                 user="root",
-                password=os.environ["MYSQL_PASSWORD"]
+                password=["MYSQL_PASSWORD"]
             )
             print("Connected to MySQL database successfully!")
             return mydb
