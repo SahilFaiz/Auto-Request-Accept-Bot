@@ -3,6 +3,7 @@ from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 import mysql.connector
 import time
+import asyncio
 import aiohttp
 
 # Function to establish MySQL connection with auto-reconnect
