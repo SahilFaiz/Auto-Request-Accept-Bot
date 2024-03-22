@@ -1,5 +1,4 @@
 pyrogram
 tgcrypto
-mysql.connector
+mysql-connector-python
 asyncio
-tgcrypto
