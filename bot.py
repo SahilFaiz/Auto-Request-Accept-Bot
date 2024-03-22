@@ -1,3 +1,4 @@
+> </> 𝙼𝚊𝚖𝚋𝚊𝙳𝚎𝚟 </>:
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup,Message
 import mysql.connector
@@ -41,11 +42,14 @@ async def broadcast_message(client, text):
         rows = cursor.fetchall()
         for row in rows:
           try:
-            await client.send_message(
+            if bool(client.get_chat(row[0])):
+                await client.send_message(
                 chat_id=int(row[0]),
                      text=text,
                         disable_notification=True)
-            print("sending is done!")
+                print("sending is done!")
+            else:
+                print(f"chat_id not valid : {row[0]}")
           except Exception as e:
             print(e)
           await asyncio.sleep(random.randint(4,10))
@@ -78,7 +82,7 @@ async def start(client:Client, message:Message):
     await message.reply_text(text="**𝙷𝙴𝙻𝙻𝙾...⚡️\n\n𝙸𝙰𝙼 𝙰 𝚂𝙸𝙼𝙿𝙻𝙴 𝚃𝙴𝙻𝙴𝙶𝚁𝙰𝙼 𝙰𝚄𝚃𝙾 𝚁𝙴𝚀𝚄𝙴𝚂𝚃 𝙰𝙲𝙲𝙴𝙿𝚃 𝙱𝙾𝚃.", reply_markup=InlineKeyboardMarkup(button), disable_web_page_preview=True)
     return
 
-
+> </> 𝙼𝚊𝚖𝚋𝚊𝙳𝚎𝚟 </>:
 @pr0fess0r_99.on_chat_join_request(filters.chat(CHAT_ID))
 async def autoapprove(client:Client, message:Message):
     chat = message.chat  
