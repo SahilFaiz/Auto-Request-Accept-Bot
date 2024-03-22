@@ -1,7 +1,8 @@
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup,Message
 import mysql.connector
-import asyncio ,os,random
+import asyncio ,random
+import os
 
 def establish_db_connection():
     while True:
@@ -81,7 +82,6 @@ async def start(client:Client, message:Message):
     await message.reply_text(text="**𝙷𝙴𝙻𝙻𝙾...⚡️\n\n𝙸𝙰𝙼 𝙰 𝚂𝙸𝙼𝙿𝙻𝙴 𝚃𝙴𝙻𝙴𝙶𝚁𝙰𝙼 𝙰𝚄𝚃𝙾 𝚁𝙴𝚀𝚄𝙴𝚂𝚃 𝙰𝙲𝙲𝙴𝙿𝚃 𝙱𝙾𝚃.", reply_markup=InlineKeyboardMarkup(button), disable_web_page_preview=True)
     return
 
-> </> 𝙼𝚊𝚖𝚋𝚊𝙳𝚎𝚟 </>:
 @pr0fess0r_99.on_chat_join_request(filters.chat(CHAT_ID))
 async def autoapprove(client:Client, message:Message):
     chat = message.chat  
