@@ -3,3 +3,5 @@ tgcrypto
 mysql-connector-python
 asyncio
 aiohttp
+random
+tgcrypto
