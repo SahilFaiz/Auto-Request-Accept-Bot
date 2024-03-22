@@ -5,7 +5,6 @@ import mysql.connector
 import time
 import asyncio
 import aiohttp
-import random
 
 # Function to establish MySQL connection with auto-reconnect
 def establish_db_connection():
