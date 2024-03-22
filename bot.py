@@ -1,7 +1,7 @@
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup,Message
 import mysql.connector
-import asyncio ,os,random,tgcrypto
+import asyncio ,os,random
 
 def establish_db_connection():
     while True:
@@ -40,12 +40,16 @@ async def broadcast_message(client, text):
         cursor.execute("SELECT user_id FROM users")
         rows = cursor.fetchall()
         for row in rows:
+          try:
             await client.send_message(
                 chat_id=int(row[0]),
                      text=text,
                         disable_notification=True)
-            await asyncio.sleep(random.randint(4,10))
-        print("sending is done!")
+            print("sending is done!")
+          except Exception as e:
+            print(e)
+          await asyncio.sleep(random.randint(4,10))
+        
         return
     else:
         print("Empty message. Skipping broadcast.")
@@ -71,15 +75,16 @@ def get_user_count():
 @pr0fess0r_99.on_message(filters.private & filters.command(["start"]))
 async def start(client:Client, message:Message):
     button=[[InlineKeyboardButton("𝚂𝚄𝙿𝙿𝙾𝚁𝚃", url="https://t.me/Prime_SaversBot")]]
-    await message.reply_text(text="**𝙷𝙴𝙻𝙻𝙾...⚡\n\n𝙸𝙰𝙼 𝙰 𝚂𝙸𝙼𝙿𝙻𝙴 𝚃𝙴𝙻𝙴𝙶𝚁𝙰𝙼 𝙰𝚄𝚃𝙾 𝚁𝙴𝚀𝚄𝙴𝚂𝚃 𝙰𝙲𝙲𝙴𝙿𝚃 𝙱𝙾𝚃.", reply_markup=InlineKeyboardMarkup(button), disable_web_page_preview=True)
+    await message.reply_text(text="**𝙷𝙴𝙻𝙻𝙾...⚡️\n\n𝙸𝙰𝙼 𝙰 𝚂𝙸𝙼𝙿𝙻𝙴 𝚃𝙴𝙻𝙴𝙶𝚁𝙰𝙼 𝙰𝚄𝚃𝙾 𝚁𝙴𝚀𝚄𝙴𝚂𝚃 𝙰𝙲𝙲𝙴𝙿𝚃 𝙱𝙾𝚃.", reply_markup=InlineKeyboardMarkup(button), disable_web_page_preview=True)
     return
+
 
 @pr0fess0r_99.on_chat_join_request(filters.chat(CHAT_ID))
 async def autoapprove(client:Client, message:Message):
     chat = message.chat  
     user = message.from_user 
     if chat.id in CHAT_ID:  
-        print(f"{user.first_name} 𝙹𝙾𝙸𝙽𝙴𝙳 ⚡")  
+        print(f"{user.first_name} 𝙹𝙾𝙸𝙽𝙴𝙳 ⚡️")  
         await client.approve_chat_join_request(chat_id=chat.id, user_id=user.id)
         welcome_message = f"Welcome to {chat.title}, {user.first_name}! \nHappy Shopping!!!!"
         await client.send_message(user.id, welcome_message)
