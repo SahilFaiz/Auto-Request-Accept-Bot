@@ -3,6 +3,7 @@ from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 import mysql.connector
 import time
+import aiohttp
 
 # Function to establish MySQL connection with auto-reconnect
 def establish_db_connection():
@@ -41,16 +42,19 @@ pr0fess0r_99 = Client(
 
 CHAT_ID = [int(chat_id) for chat_id in os.environ.get("CHAT_ID", "").split(",")]
 
-async def send_message_with_rate_limit(client, user_id, text, retries=3):
-    for _ in range(retries):
-        try:
-            await client.send_message(user_id, text)
-            print(f"Broadcasted {user_id} successfully!")
-            return True
-        except Exception as e:
-            print(f"Failed to send message to user {user_id}: {e}")
-            time.sleep(10)  # Wait before retrying
-    return False
+# Function to send message with rate limit
+async def send_message_with_rate_limit(client, user_id, text, session):
+    url = f"https://api.telegram.org/bot{client.token}/sendMessage"
+    data = {
+        "chat_id": user_id,
+        "text": text
+    }
+    async with session.post(url, data=data) as response:
+        if response.status != 200:
+            print(f"Failed to send message to user {user_id}: {response.status}")
+            return False
+        print(f"Broadcasted {user_id} successfully!")
+        return True
 
 # Function to broadcast messages to all users
 async def broadcast_message(client, text):
@@ -59,17 +63,14 @@ async def broadcast_message(client, text):
         cursor = mydb.cursor()
         cursor.execute("SELECT user_id FROM users")
         rows = cursor.fetchall()
-
-        # Batch messages to avoid hitting limits
-        batch_size = 25  # Max messages per batch
-        successful_sends = 0  # Counter for successful sends
-        for i in range(0, len(rows), batch_size):
-            batch = rows[i:i + batch_size]
-            for row in batch:
+        
+        async with aiohttp.ClientSession() as session:
+            tasks = []
+            for row in rows:
                 user_id = row[0]
-                if await send_message_with_rate_limit(client, user_id, text):
-                    successful_sends += 1
-        print(f"Total {successful_sends} users received the message.")
+                task = send_message_with_rate_limit(client, user_id, text, session)
+                tasks.append(task)
+            await asyncio.gather(*tasks)
     else:
         print("Empty message. Skipping broadcast.")
 
@@ -81,11 +82,10 @@ async def broadcast_command(client, message):
     if owner_id and message.from_user.username == owner_id[1:]:
         # Get the message to broadcast from the command
         broadcast_text = " ".join(message.command[1:])
-
         # Send broadcast message to users who joined the channel
         await broadcast_message(client, broadcast_text)
     else:
-        print("u r not owner")
+        print("You are not the owner")
 
 # Function to retrieve the count of users from the database
 def get_user_count():
