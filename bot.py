@@ -48,7 +48,8 @@ async def send_message_with_rate_limit(client, user_id, text, session):
     url = f"https://api.telegram.org/bot{client.bot_token}/sendMessage"
     data = {
         "chat_id": user_id,
-        "text": text
+        "text": text,
+        "disable_notification": True
     }
     async with session.post(url, data=data) as response:
         if response.status != 200:
