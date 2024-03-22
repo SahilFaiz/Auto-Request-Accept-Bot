@@ -2,3 +2,4 @@ pyrogram
 tgcrypto
 mysql-connector-python
 asyncio
+aiohttp
