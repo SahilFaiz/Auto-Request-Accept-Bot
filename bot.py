@@ -51,11 +51,19 @@ async def send_message_with_rate_limit(client, user_id, text, session):
         "text": text
     }
     async with session.post(url, data=data) as response:
-        if response.status != 200:
-            print(f"Failed to send message to user {user_id}: {response.status}")
-            return False
-        print(f"Broadcasted {user_id} successfully!")
-        return True
+            if response.status == 429:
+                # If rate limited, wait for 2 seconds and retry
+                await asyncio.sleep(2)
+                return await send_message_with_ratelimit(client, user_id, text, session)
+            elif response.status != 200:
+                print(f"Failed to send message to user {user_id}: {response.status}")
+                return False
+            result = await response.json()
+            if not result.get('ok', False):
+                print(f"Failed to send message to user {user_id}: {result.get('description', 'Unknown error')}")
+                return False
+            print(f"Broadcasted {user_id} successfully!")
+            return True
 
 # Function to broadcast messages to all users
 async def broadcast_message(client, text):
