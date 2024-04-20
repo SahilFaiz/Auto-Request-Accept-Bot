@@ -30,6 +30,6 @@ https://t.me/+a59EuSFxiNMwZGY1
 https://t.me/+a59EuSFxiNMwZGY1
 👆👆👆👆JOIN NOW👆👆👆👆 
 
-Note : We Don't Post Any Loots Here , If You Ignore This Msg & Don't Join Our Main Channel (You May Miss Many Loots Daily) 🙂❤️🙏''',reply_markup=InlineKeyboardMarkup(button), disable_web_page_preview=True)
+Note : We Don't Post Any Loots Here , If You Ignore This Msg & Don't Join Our Main Channel (You May Miss Many Loots Daily) 🙂❤️🙏''',reply_markup=InlineKeyboardMarkup(button))
 print("𝗕𝗼𝘁 𝗦𝘁𝗮𝗿𝘁𝗲𝗱")
 pr0fess0r_99.run()
