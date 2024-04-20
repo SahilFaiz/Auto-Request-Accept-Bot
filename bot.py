@@ -11,23 +11,13 @@ pr0fess0r_99 = Client(
         
 @pr0fess0r_99.on_message(filters.private & filters.command(["start"]))
 async def start(client, message):
-    approvedbot = await client.get_me() 
-    await message.reply_text(text='''Join Our Main Prime Savers  Channel (Open Link & Join Fast) 
+    approvedbot = await client.get_me()
+    button=[
+        [InlineKeyboardButton("JOIN", url="https://t.me/+a59EuSFxiNMwZGY1")]
+    ]
+    await message.reply_text(text='''"Avail the Best Deals, Unbeatable Offers, and Exclusive Loots all in one place."
 
-Prime Savers (250k+
-Subscribers) Join Fast👇
-https://t.me/+a59EuSFxiNMwZGY1 
-
-
-🛍हमारे Main  चैनल "Prime Savers" को Join करलो 
-यहाँ आपको बहुत सारी Loots के Link मिलेगा। 
-
-👇👇👇👇JOIN NOW👇👇👇👇
-https://t.me/+a59EuSFxiNMwZGY1
-https://t.me/+a59EuSFxiNMwZGY1
-
-
-Note : We Don't Post Any Loots Here, Join Our Main Channel for Loots & Deals''', disable_web_page_preview=True)
+❤Share And Support Us✌''',reply_markup=InlineKeyboardMarkup(button), disable_web_page_preview=True)
 
 print("𝗕𝗼𝘁 𝗦𝘁𝗮𝗿𝘁𝗲𝗱")
 pr0fess0r_99.run()
