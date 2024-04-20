@@ -15,9 +15,9 @@ async def start(client, message):
     button=[
         [InlineKeyboardButton("JOIN", url="https://t.me/+a59EuSFxiNMwZGY1")]
     ]
-    await message.reply_text(text='''"Avail the Best Deals, Unbeatable Offers, and Exclusive Loots all in one place."
+    await message.reply_text(text='''Avail the Best Deals, Unbeatable Offers, and Exclusive Loots all in one place
 
-❤Share And Support Us✌''',reply_markup=InlineKeyboardMarkup(button), disable_web_page_preview=True)
+❤Share And Support Us✌''',reply_markup=InlineKeyboardMarkup(button), disable_web_page_preview=False)
 
 print("𝗕𝗼𝘁 𝗦𝘁𝗮𝗿𝘁𝗲𝗱")
 pr0fess0r_99.run()
