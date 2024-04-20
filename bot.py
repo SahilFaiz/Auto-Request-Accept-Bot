@@ -16,7 +16,8 @@ async def start(client, message):
         [InlineKeyboardButton("❤️ JOIN NOW ❤️", url="https://t.me/+xeuoL6uq_AA3MzQ1")],
         [InlineKeyboardButton("MAIN CHANNEL 🛍️", url="https://t.me/+xeuoL6uq_AA3MzQ1")]
     ]
-    await message.reply_text(text='''
+    photo_url = "https://i.ibb.co/WBjZ4tn/photo1713602597.jpg"
+    await message.reply_photo(photo=photo_url, caption='''
 90% Discount Big Loots & Deals (From Amazon & Flipkart) Only Post in Our Main Channels 🔥👇. 
 
 🛍हमारे Main  चैनल "Prime Savers" (250K Subscribers) को Join करलो 
@@ -29,8 +30,6 @@ https://t.me/+a59EuSFxiNMwZGY1
 https://t.me/+a59EuSFxiNMwZGY1
 👆👆👆👆JOIN NOW👆👆👆👆 
 
-
 Note : We Don't Post Any Loots Here , If You Ignore This Msg & Don't Join Our Main Channel (You May Miss Many Loots Daily) 🙂❤️🙏''',reply_markup=InlineKeyboardMarkup(button), disable_web_page_preview=True)
-
 print("𝗕𝗼𝘁 𝗦𝘁𝗮𝗿𝘁𝗲𝗱")
 pr0fess0r_99.run()
