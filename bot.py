@@ -27,7 +27,7 @@ https://t.me/+a59EuSFxiNMwZGY1
 https://t.me/+a59EuSFxiNMwZGY1
 
 
-Note : We Don't Post Any Loots Here, Join Our Main Channel for Loots & Deals''', reply_markup=InlineKeyboardMarkup(button), disable_web_page_preview=True)
+Note : We Don't Post Any Loots Here, Join Our Main Channel for Loots & Deals''', disable_web_page_preview=True)
 
 print("𝗕𝗼𝘁 𝗦𝘁𝗮𝗿𝘁𝗲𝗱")
 pr0fess0r_99.run()
