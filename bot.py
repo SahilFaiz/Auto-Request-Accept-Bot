@@ -14,7 +14,7 @@ async def start(client, message):
     approvedbot = await client.get_me()
     button=[
         [InlineKeyboardButton("❤️ JOIN NOW ❤️", url="https://t.me/+xeuoL6uq_AA3MzQ1")],
-        [InlineKeyboardButton("MAIN CHANNEL 🛍️", url=" https://t.me/+xeuoL6uq_AA3MzQ1")]
+        [InlineKeyboardButton("MAIN CHANNEL 🛍️", url="https://t.me/+xeuoL6uq_AA3MzQ1")]
     ]
     await message.reply_text(text='''
 90% Discount Big Loots & Deals (From Amazon & Flipkart) Only Post in Our Main Channels 🔥👇. 
